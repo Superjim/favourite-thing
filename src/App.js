@@ -4,16 +4,16 @@ import React, { useState } from "react";
 function App() {
   //set initial color, EDIT THESE TO PROVE IT WILL FAVOURITE CERTAIN COLORS
   const [colors, setColors] = useState({
-    red: 0,
-    blue: 0,
-    green: 0,
-    yellow: 0,
-    purple: 0,
-    orange: 0,
-    pink: 0,
-    black: 0,
-    white: 0,
-    gray: 0,
+    red: 50,
+    blue: 50,
+    green: 50,
+    yellow: 50,
+    purple: 50,
+    orange: 50,
+    pink: 50,
+    black: 50,
+    white: 50,
+    gray: 50,
   });
 
   //should probably just map off colors.keys
@@ -72,7 +72,10 @@ function App() {
       }
     }
 
-    setColors({ ...colors, [currentColor]: colors[currentColor] + amount });
+    //dont bring a color to less than 0
+    if (colors[currentColor] + amount >= 0) {
+      setColors({ ...colors, [currentColor]: colors[currentColor] + amount });
+    }
 
     //random, unweighted color
     //const randomColor = colorList[Math.floor(Math.random() * colorList.length)];
