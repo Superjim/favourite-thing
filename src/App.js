@@ -1,7 +1,8 @@
 import "./App.css";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 function App() {
+  //set initial color, EDIT THESE TO PROVE IT WILL FAVOURITE CERTAIN COLORS
   const [colors, setColors] = useState({
     red: 0,
     blue: 0,
@@ -15,9 +16,7 @@ function App() {
     gray: 0,
   });
 
-  const colorEntries = Object.entries(colors);
-  const sortedColorEntries = colorEntries.sort((a, b) => b[1] - a[1]);
-
+  //should probably just map off colors.keys
   const colorList = [
     "red",
     "blue",
@@ -31,9 +30,53 @@ function App() {
     "gray",
   ];
 
+  //onClick
   const handleClick = (amount) => {
+    const colorEntries = Object.entries(colors);
+
+    //sort high -> low
+    const sortedColorEntries = colorEntries.sort((a, b) => b[1] - a[1]);
+
+    //need add 1, color weight 0 never get selected its outside of randint
+    const weightedColors = sortedColorEntries.map(([color, count]) => ({
+      color,
+      weight: count + 1,
+    }));
+
+    //sum of all the total weight
+    let weightTotal = 0;
+    for (let i = 0; i < weightedColors.length; i++) {
+      weightTotal += weightedColors[i].weight;
+    }
+
+    //gen int between 1 and total weight
+    const random = weightTotal * Math.random();
+
+    // start with 2, 3 and 5
+    // total weight = 8
+    // random int comes out as 4
+    // weightsum += 2
+    // 2 is less than randint 4
+    // weightsum += 3, weightsum = 5
+    // as 5 is more than 4, set current color to the color weighted with 4
+    // break
+
+    let weightSum = 0;
+
+    let randomColor;
+    for (let i = 0; i < weightedColors.length; i++) {
+      weightSum += weightedColors[i].weight;
+      if (random < weightSum) {
+        randomColor = weightedColors[i].color;
+        break;
+      }
+    }
+
     setColors({ ...colors, [currentColor]: colors[currentColor] + amount });
-    const randomColor = colorList[Math.floor(Math.random() * colorList.length)];
+
+    //random, unweighted color
+    //const randomColor = colorList[Math.floor(Math.random() * colorList.length)];
+
     setCurrentColor(randomColor);
   };
 
@@ -61,11 +104,11 @@ function App() {
         </button>
       </div>
       <ul>
-        {sortedColorEntries.map(([color, count]) => (
+        {/* {zzzzzzzzz.map(([color, count]) => (
           <li key={color}>
             {color}: {count}
           </li>
-        ))}
+        ))} */}
       </ul>
       <Triangle color="red" />
       <Circle color="blue" />
