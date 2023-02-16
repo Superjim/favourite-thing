@@ -104,11 +104,13 @@ function App() {
         </button>
       </div>
       <ul>
-        {/* {zzzzzzzzz.map(([color, count]) => (
-          <li key={color}>
-            {color}: {count}
-          </li>
-        ))} */}
+        {Object.entries(colors)
+          .sort((a, b) => b[1] - a[1])
+          .map(([color, count]) => (
+            <li key={color}>
+              {color}: {count}
+            </li>
+          ))}
       </ul>
       <Triangle color="red" />
       <Circle color="blue" />
