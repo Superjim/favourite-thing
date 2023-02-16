@@ -30,6 +30,10 @@ function App() {
     "gray",
   ];
 
+  const handleChange = (color, value) => {
+    setColors({ ...colors, [color]: parseInt(value) });
+  };
+
   //onClick
   const handleClick = (amount) => {
     const colorEntries = Object.entries(colors);
@@ -106,17 +110,24 @@ function App() {
           Yes
         </button>
       </div>
-      <ul>
+      <form>
         {Object.entries(colors)
           .sort((a, b) => b[1] - a[1])
           .map(([color, count]) => (
-            <li key={color}>
-              {color}: {count}
-            </li>
+            <div key={color}>
+              <label htmlFor={color}>{color}</label>
+              <input
+                type="number"
+                id={color}
+                name={color}
+                value={count}
+                onChange={(e) => handleChange(color, e.target.value)}
+              />
+            </div>
           ))}
-      </ul>
-      <Triangle color="red" />
-      <Circle color="blue" />
+      </form>
+      {/* <Triangle color="red" /> */}
+      {/* <Circle color="blue" /> */}
     </div>
   );
 }
@@ -129,20 +140,20 @@ const Square = (props) => {
   );
 };
 
-const Triangle = (props) => {
-  return (
-    <svg width="100" height="100">
-      <polygon points="50,0 0,100 100,100" fill="blue" />
-    </svg>
-  );
-};
+// const Triangle = (props) => {
+//   return (
+//     <svg width="100" height="100">
+//       <polygon points="50,0 0,100 100,100" fill="blue" />
+//     </svg>
+//   );
+// };
 
-const Circle = (props) => {
-  return (
-    <svg width="100" height="100">
-      <circle cx="50" cy="50" r="40" fill="green" />
-    </svg>
-  );
-};
+// const Circle = (props) => {
+//   return (
+//     <svg width="100" height="100">
+//       <circle cx="50" cy="50" r="40" fill="green" />
+//     </svg>
+//   );
+// };
 
 export default App;
